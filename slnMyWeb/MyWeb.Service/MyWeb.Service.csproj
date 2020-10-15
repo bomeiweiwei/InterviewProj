@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{23448689-BD84-4ED7-AEFD-EEC91908A5A6}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MyWeb.Service</RootNamespace>
+    <AssemblyName>MyWeb.Service</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Class1.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MyWeb.Common\MyWeb.Common.csproj">
+      <Project>{2a54a5b6-6c7b-4822-a054-17f8e87b17b2}</Project>
+      <Name>MyWeb.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyWeb.Dao\MyWeb.Dao.csproj">
+      <Project>{ab485f68-f43f-4f4f-b6c8-f708f0f75199}</Project>
+      <Name>MyWeb.Dao</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyWeb.Entities\MyWeb.Entities.csproj">
+      <Project>{bb599431-2064-4455-9537-f3b863230feb}</Project>
+      <Name>MyWeb.Entities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyWeb.Models\MyWeb.Models.csproj">
+      <Project>{89142325-8c63-4da5-940d-f60fe64c5c84}</Project>
+      <Name>MyWeb.Models</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MyWeb.Resource\MyWeb.Resource.csproj">
+      <Project>{6fd628c3-dd4f-4e52-8cb4-2ccc2863d1cb}</Project>
+      <Name>MyWeb.Resource</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
