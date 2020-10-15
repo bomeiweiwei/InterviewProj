@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyWeb.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,8 @@ namespace MyWeb.Controllers
     {
         public ActionResult Index()
         {
+            ProductsService service = new ProductsService();
+            var model = service.Get(m => m.ProductID < 10).ToList();
             return View();
         }
 
