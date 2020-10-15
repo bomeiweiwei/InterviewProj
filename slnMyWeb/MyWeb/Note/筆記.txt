@@ -1,0 +1,40 @@
+﻿MVC分離Entities和Model:
+https://www.c-sharpcorner.com/article/reuse-the-entity-data-model-classes-of-webapi-project-to-multiple-projects-using/
+分離後的專案參考參考各子專案
+=====================================================================
+分離後產生MetaData:
+https://dotblogs.com.tw/wasichris/2015/01/17/148128
+設定完檔案全砍在執行自動工具看設定是否正確，ex: string namespaceName = code.VsNamespaceSuggestion().Replace(".Partials","");
+或單砍某個檔重新產生
+=====================================================================
+主tt新增[Key]屬性
+https://riptutorial.com/entity-framework/example/27049/adding-data-annotations-to-the-generated-model
+新增設定後直接執行自訂工具
+=====================================================================
+多國語
+https://dotblogs.com.tw/wasichris/2015/06/20/151608
+=====================================================================
+Metadata調整(針對多國語)DispalyName、Required、MaxLength
+DispalyName:
+https://stackoverflow.com/questions/2431333/displayname-attribute-from-resources
+Required、MaxLength:
+https://dotblogs.com.tw/wasichris/2015/06/20/151610
+=====================================================================
+將 ASP.NET Identity 加至專案中
+https://blog.yowko.com/add-aspnet-identity-empty-project/#%E5%9C%A8-app-start-%E8%B3%87%E6%96%99%E5%A4%BE%E4%B8%AD%E5%8A%A0%E5%85%A5-identityconfig-cs
+ASP.NET Identity 搭配 DataBase first 與 SQL Server
+https://blog.yowko.com/aspnet-identity-db-first-mssql/
+Identity 角色建立和管理
+https://dotblogs.com.tw/kinanson/2015/05/19/151345
+app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+
+設定角色Customer跟Admin，Customer登入後可跑進Admin頁面，角色檢查並導向自訂未授權頁面
+https://stackoverflow.com/questions/2504923/how-to-redirect-authorize-to-loginurl-only-when-roles-are-not-used
+上面缺的CacheValidateHandler
+https://dotblogs.com.tw/SteveLiu/2020/02/18/160759
+=====================================================================
+在WebAPI中加入自訂的http基本驗證方式
+https://dotblogs.com.tw/maduka/2016/12/04/193549
+=====================================================================
+[LINQ] 使用 LINQKit PredicateBuilder 解決動態OR條件查詢窘境
+https://dotblogs.com.tw/wasichris/2014/12/20/147734
