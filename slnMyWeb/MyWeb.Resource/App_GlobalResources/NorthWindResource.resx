@@ -120,4 +120,7 @@
   <data name="CategoryID" xml:space="preserve">
     <value>產品類別</value>
   </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>產品名稱</value>
+  </data>
 </root>

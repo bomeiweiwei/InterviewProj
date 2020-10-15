@@ -120,4 +120,7 @@
   <data name="CategoryID" xml:space="preserve">
     <value>CategoryID</value>
   </data>
+  <data name="ProductName" xml:space="preserve">
+    <value>ProductName</value>
+  </data>
 </root>

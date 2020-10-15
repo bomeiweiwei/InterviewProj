@@ -1,0 +1,255 @@
+﻿<#@ template language="C#" debug="true" hostspecific="true"#>
+<#@ import namespace="System.Text.RegularExpressions" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Diagnostics" #>
+<#@ include file="EF.Utility.CS.ttinclude"#>
+<#@ output extension=".cs"#><#
+
+// Formatting helper for code
+CodeGenerationTools code = new CodeGenerationTools(this);
+
+// object for creating entity information
+MetadataLoader loader = new MetadataLoader(this);
+ 
+// TODO: NEED TO PROVIDE EDMX FILE LOCATION
+string inputFile = @"../../MyWeb.Entities/NorthWindModel.edmx"; 
+
+// File generation suffix
+string suffix = "Metadata";
+string short_suffix = "MD";
+ 
+// Meta data information for the conceptual model
+EdmItemCollection ItemCollection = loader.CreateEdmItemCollection(inputFile);
+
+// Suggested namespace
+string namespaceName = code.VsNamespaceSuggestion().Replace(".Partials","");// + suffix;
+
+// File generator according to different section
+EntityFrameworkTemplateFileManager fileManager = 
+            EntityFrameworkTemplateFileManager.Create(this);
+    
+
+// Loop through each entity type
+foreach (EntityType entity in 
+            ItemCollection.GetItems<EntityType>().OrderBy(e => e.Name))
+{
+    // File name for data annotation file
+    string fileName = entity.Name + suffix + ".cs";
+    
+    // Check for file existence, If it does not
+    // exist create new file for data annotation
+    if (!DoesFileExist(fileName))
+    {    
+    
+        // Header for file
+        WriteHeader(fileManager);
+        
+        // Create new file
+        fileManager.StartNewFile(fileName);    
+
+        // Add namespaces into file
+        BeginNamespace(namespaceName, code);
+#>
+
+/// <summary>
+/// <#=code.Escape(entity)#> class
+/// </summary>
+[MetadataType(typeof(<#=code.Escape(entity) + short_suffix#>))]
+<#= Accessibility.ForType(entity)#> <#=code.SpaceAfter(code.AbstractOption(entity))#>partial class <#=code.Escape(entity)#>
+{
+
+	/// <summary>
+	/// <#=code.Escape(entity)#> Metadata class
+	/// </summary>
+	<#= Accessibility.ForType(entity)#> <#=code.SpaceAfter(code.AbstractOption(entity))#>class <#=code.Escape(entity) + short_suffix#>
+	{
+	<#
+		// Loop through each primitive property of entity
+		foreach (EdmProperty edmProperty in entity.Properties.Where(p => 
+				  p.TypeUsage.EdmType is PrimitiveType && p.DeclaringType == entity))
+		{
+	#>
+	<#= CodeRegion.GetIndent(1) #>
+		/// <summary>
+		/// <#=GetFriendlyName(code.Escape(edmProperty))#>
+		/// </summary>        
+	<#    
+		// Write display name data annotation    
+		WriteDisplayName(edmProperty);
+
+		// Write required field data annotation
+		WriteRequiredAttribute(edmProperty);
+
+		// Write string length annotation
+		WriteStringLengthAttribute(edmProperty);
+	#>
+		<#=Accessibility.ForProperty(edmProperty)#> <#=code.Escape(edmProperty.TypeUsage)#> <#=code.Escape(edmProperty)#> { <#=Accessibility.ForGetter(edmProperty)#>get; <#=Accessibility.ForSetter(edmProperty)#>set; }
+
+	<#        
+	   }
+	#>
+	<#= CodeRegion.GetIndent(1) #>
+	}
+}
+
+<#
+    // End namespace
+    EndNamespace(namespaceName);
+
+    }
+    else
+    {
+        // Write with original file
+        fileManager.StartNewFile(fileName);
+        this.Write(OutputFile(fileName));
+    }
+}
+fileManager.Process();
+
+#>
+
+
+
+
+
+<#+
+
+// Write display name data annotation
+void WriteDisplayName(EdmProperty edmProperty) {
+    string displayName = edmProperty.Name;
+    
+    // Check for property name
+    if (!string.IsNullOrEmpty(displayName)) 
+    {
+        // Generate user friendly name
+        //displayName = GetFriendlyName(edmProperty.Name);
+        
+        // Populate actual string to be written
+		//WriteLine("{0}[DisplayName(\"{1}\")]", CodeRegion.GetIndent(1), displayName);
+        WriteLine("{0}[ResourceTool.LocalizedDisplayName(\"{1}\", typeof(NorthWindResource))]", CodeRegion.GetIndent(1), displayName);
+    }
+}
+
+//add required attribute
+void WriteRequiredAttribute(EdmProperty edmProperty) {
+    
+    // Check for required property
+    if (!edmProperty.Nullable) 
+    {
+      //WriteLine("{0}[Required(ErrorMessage = \"{1} is required\")]",
+      //   CodeRegion.GetIndent(2),GetFriendlyName(edmProperty.Name));
+      WriteLine("{0}[Required(ErrorMessageResourceName = \"Field_Required\", ErrorMessageResourceType = typeof(NorthWindResource))]",CodeRegion.GetIndent(2));
+    }
+}
+
+// Write max string length
+void WriteStringLengthAttribute(EdmProperty edmProperty) { 
+    
+    // Object for retrieving additional information from property 
+    Facet maxLengthfacet;
+    
+    // Try to get max length from property
+    if (edmProperty.TypeUsage.Facets.TryGetValue("MaxLength", true, out maxLengthfacet)) 
+    {
+        // Max length for property
+        double lengthAttribute;
+        
+        // Try to parse max length value
+        if (double.TryParse(maxLengthfacet.Value.ToString(), out lengthAttribute)) 
+        {
+            // Generate actual string for attribute
+            //WriteLine("{0}[MaxLength({1}, ErrorMessage = \"{2} cannot " + 
+            //  "be longer than {1} characters\")]",
+            //  CodeRegion.GetIndent(2),lengthAttribute,GetFriendlyName(edmProperty.Name));
+            WriteLine("{0}[MaxLength({1}, ErrorMessageResourceName = \"Field_MaxLength\", ErrorMessageResourceType = typeof(NorthWindResource))]",CodeRegion.GetIndent(2),lengthAttribute);
+        }
+    }
+}
+
+
+// Initialize header
+void WriteHeader(EntityFrameworkTemplateFileManager fileManager, params string[] extraUsings)
+{
+    fileManager.StartHeader();
+#>
+using MyWeb.Common;
+using MyWeb.Resource.App_GlobalResources;
+using System; 
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+<#=String.Join(String.Empty, extraUsings.Select(u => "using " + u + 
+                     ";" + Environment.NewLine).ToArray())#>
+<#+ 
+    fileManager.EndBlock();
+}
+
+// Add namespace
+void BeginNamespace(string namespaceName, CodeGenerationTools code)
+{
+    // Generate region
+    CodeRegion region = new CodeRegion(this);
+
+    // Check for namespace value
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+#>
+
+namespace <#=code.EscapeNamespace(namespaceName)#>
+{
+<#+
+        // Add indent
+        PushIndent(CodeRegion.GetIndent(1));
+    }
+}
+
+// End namespace
+void EndNamespace(string namespaceName)
+{
+    if (!String.IsNullOrEmpty(namespaceName))
+    {
+        PopIndent();
+#>
+}
+<#+
+    }
+}
+
+#>
+
+<#+
+
+
+
+// Check for file existence
+bool DoesFileExist(string filename)
+{            
+    return File.Exists(Path.Combine(GetCurrentDirectory(),filename));    
+}
+
+// Get current  folder directory
+string GetCurrentDirectory()
+{
+    return System.IO.Path.GetDirectoryName(Host.TemplateFile);
+}
+
+// Get content of file name
+string OutputFile(string filename)
+{
+    using(StreamReader sr = 
+      new StreamReader(Path.Combine(GetCurrentDirectory(),filename)))
+    {
+        return sr.ReadToEnd();
+    }
+}
+
+// Get friendly name for property names
+string GetFriendlyName(string value)
+{
+return Regex.Replace(value,
+            "([A-Z]+)", " $1",
+            RegexOptions.Compiled).Trim();
+}
+
+
+
+#>

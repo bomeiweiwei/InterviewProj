@@ -76,6 +76,44 @@
     <Compile Include="Order_Details.cs">
       <DependentUpon>NorthWindModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Partials\CategoriesMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\CustomerDemographicsMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\CustomersMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\EmployeesMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\NorthWindModelMetadata.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\OrdersMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\Order_DetailsMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\ProductsMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\RegionMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\ShippersMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\SuppliersMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Partials\TerritoriesMetadata.cs">
+      <DependentUpon>NorthWindModelMetadata.tt</DependentUpon>
+    </Compile>
     <Compile Include="Products.cs">
       <DependentUpon>NorthWindModel.tt</DependentUpon>
     </Compile>
@@ -111,6 +149,10 @@
     <Content Include="NorthWindModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>NorthWindModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Partials\NorthWindModelMetadata.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>NorthWindModelMetadata.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>
