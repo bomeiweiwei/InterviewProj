@@ -14,9 +14,9 @@ namespace MyWeb.Controllers
             return View();
         }
 
-        public ActionResult Detail(int pid)
+        public ActionResult Detail(int id)
         {
-            ViewBag.id = pid;
+            //ViewBag.id = pid;
             return View();
         }
     }

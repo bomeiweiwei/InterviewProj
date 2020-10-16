@@ -20,8 +20,8 @@
 
 @section scripts{
     <script type="text/javascript">
-        var apiStr = '@Url.HttpRouteUrl("Service_AreaApi", new { controller= "Products" })';
-        //debugger;
+        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "Products" })';
+        debugger;
         function initGrid() {
             var grid = $('#grid').kendoGrid({
                 columns: [
@@ -79,12 +79,12 @@
             });
         }
 
-        function GetDetail(pid) {
-            openDialog(pid);
+        function GetDetail(id) {
+            openDialog(id);
         }
 
         var dialog = new Object;
-        function openDialog(pid) {
+        function openDialog(id) {
             dialog = new BootstrapDialog({
                 title: '產品資訊',
                 type: BootstrapDialog.TYPE_SUCCESS,
@@ -113,7 +113,7 @@
             });
 
             dialog.setData('pageToLoad', '@Url.Action("Detail", new { area = "" })');
-            dialog.setData('pageParam', '?pid=' + pid);
+            dialog.setData('pageParam', '/' + id);
 
             dialog.realize();
             //dialog.setSize(BootstrapDialog.SIZE_WIDE);

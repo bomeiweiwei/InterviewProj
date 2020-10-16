@@ -16,13 +16,15 @@ namespace MyWeb.Areas.Service.Controllers
         {
             service = new ProductsService();
         }
-        public List<vw_Products> Get()
+        public IQueryable<vw_Products> GetProducts()
         {
-            return service.GetProductsList(0);
+            IQueryable<vw_Products> list = service.GetProductsList(0).AsQueryable();
+            return list;
         }
-        public vw_Products Get(int id)
+        public IHttpActionResult GetProduct(int id)
         {
-            return service.GetProductsList(id).FirstOrDefault();
+            vw_Products obj = service.GetProductsList(id).FirstOrDefault();
+            return Ok(obj);
         }
     }
 }

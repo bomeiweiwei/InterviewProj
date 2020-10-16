@@ -71,7 +71,7 @@
 
 @section scripts{
     <script type="text/javascript">
-        var apiStr = '@Url.HttpRouteUrl("Service_AreaApi", new { controller= "Products" })'+'?id='+'@ViewBag.id';
+        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "Products" })';
         debugger;
         function init() {
             $.ajax({

@@ -13,7 +13,7 @@
 
 <script>
         $(document).ready(function () {
-            var apiUrl='@Url.HttpRouteUrl("ServiceAreaApi", new { controller= "LangService", action= "ChangeLang" })';
+            var apiUrl='@Url.HttpRouteUrl("DefaultApi", new { controller= "LangService", action= "ChangeLang" })';
             $("#lang_dropdownlist").kendoDropDownList({
                 change: function (e) {
                     var value = this.value();
