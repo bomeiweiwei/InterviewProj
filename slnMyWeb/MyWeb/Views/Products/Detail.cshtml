@@ -1,0 +1,96 @@
+﻿@model MyWeb.Models.ViewModel.vw_Products
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+
+<div>
+    <h4>商品詳細資訊</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ProductName)
+        </dt>
+
+        <dd>
+            @Html.TextBox("ProductName")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SupplierID)
+        </dt>
+
+        <dd>
+            @Html.TextBox("CompanyName")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CategoryID)
+        </dt>
+
+        <dd>
+            @Html.TextBox("CategoryName")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QuantityPerUnit)
+        </dt>
+
+        <dd>
+            @Html.TextBox("QuantityPerUnit")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitPrice)
+        </dt>
+
+        <dd>
+            @Html.TextBox("UnitPrice")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitsInStock)
+        </dt>
+
+        <dd>
+            @Html.TextBox("UnitsInStock")
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnitsOnOrder)
+        </dt>
+
+        <dd>
+            @Html.TextBox("UnitsOnOrder")
+        </dd>
+
+    </dl>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var apiStr = '@Url.HttpRouteUrl("Service_AreaApi", new { controller= "Products" })'+'?id='+'@ViewBag.id';
+        debugger;
+        function init() {
+            $.ajax({
+                url: apiStr,
+                type: 'GET',
+                async: false,
+                success: function (data) {
+                    $("#ProductName").val(data.ProductName);
+                    $("#CompanyName").val(data.CompanyName);
+                    $("#CategoryName").val(data.CategoryName);
+                    $("#QuantityPerUnit").val(data.QuantityPerUnit);
+                    $("#UnitPrice").val(data.UnitPrice);
+                    $("#UnitsInStock").val(data.UnitsInStock);
+                    $("#UnitsOnOrder").val(data.UnitsOnOrder);
+                }
+            });
+        }
+        $(function () {
+            init();
+        });
+    </script>
+}

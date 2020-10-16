@@ -123,6 +123,9 @@
   <data name="CategoryName" xml:space="preserve">
     <value>產品類別</value>
   </data>
+  <data name="CompanyName" xml:space="preserve">
+    <value>供應商名稱</value>
+  </data>
   <data name="Discontinued" xml:space="preserve">
     <value>已停產</value>
   </data>

@@ -1,4 +1,6 @@
-﻿using MyWeb.Models;
+﻿using MyWeb.Dao.Sql;
+using MyWeb.Models;
+using MyWeb.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,5 +14,10 @@ namespace MyWeb.Service
         //public ProductsService() : base()
         //{
         //}
+        public List<vw_Products> GetProductsList(int ProductID)
+        {
+            ProductsDA productsDA = new ProductsDA();
+            return productsDA.GetProductsData(ProductID);
+        }
     }
 }

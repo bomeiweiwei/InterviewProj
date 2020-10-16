@@ -21,6 +21,12 @@ namespace MyWeb
             );
 
             config.Routes.MapHttpRoute(
+               name: "Service_AreaApi",
+               routeTemplate: "api/{controller}/{id}",
+               defaults: new { id = RouteParameter.Optional, Areas = "Service" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }

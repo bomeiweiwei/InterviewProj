@@ -79,6 +79,15 @@ namespace MyWeb.Resource.App_GlobalResources {
         }
         
         /// <summary>
+        ///   查詢類似 供應商名稱 的當地語系化字串。
+        /// </summary>
+        public static string CompanyName {
+            get {
+                return ResourceManager.GetString("CompanyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 已停產 的當地語系化字串。
         /// </summary>
         public static string Discontinued {

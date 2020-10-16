@@ -149,8 +149,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Areas\Service\Controllers\LangServiceController.cs" />
+    <Compile Include="Areas\Service\Controllers\ProductsController.cs" />
     <Compile Include="Areas\Service\ServiceAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -2851,6 +2853,11 @@
     <Content Include="Scripts\js\messages\kendo.messages.zh-CN.min.js.map" />
     <Content Include="Scripts\js\messages\kendo.messages.zh-HK.min.js.map" />
     <Content Include="Scripts\js\messages\kendo.messages.zh-TW.min.js.map" />
+    <Content Include="Views\Products\Index.cshtml" />
+    <Content Include="Views\Shared\DisplayTemplates\DateTimeTemp.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTimeTemp.cshtml" />
+    <Content Include="Views\Shared\_LayoutPopup.cshtml" />
+    <Content Include="Views\Products\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

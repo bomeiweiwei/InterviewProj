@@ -1,0 +1,127 @@
+﻿
+@{
+    ViewBag.Title = "Products";
+}
+
+<style>
+    div.k-loading-mask {
+        z-index: 3; /* must be larger than the z-index:2 of #container */
+    }
+</style>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h5>Products</h5>
+            <div id="grid"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        var apiStr = '@Url.HttpRouteUrl("Service_AreaApi", new { controller= "Products" })';
+        //debugger;
+        function initGrid() {
+            var grid = $('#grid').kendoGrid({
+                columns: [
+                    {
+                        field: 'id',
+                        template: function (e) {
+                            return '<a href = "\#" onclick ="GetDetail(' + e.ProductID + ')">詳細</a><input type="hidden" name="ProductID" value="' + e.ProductID + '">';
+                        },
+                        title: '功能', encoded: false, attributes: { style: "text-align:center;" }
+                    },
+                    { field: 'ProductName', title: '@MyWeb.Resource.App_GlobalResources.NorthWindResource.ProductName', encoded: false, attributes: { style: "text-align:center;" } },
+                    { field: 'CompanyName', title: '@MyWeb.Resource.App_GlobalResources.NorthWindResource.CompanyName', encoded: false, attributes: { style: "text-align:center;" } },
+                    { field: 'CategoryName', title: '@MyWeb.Resource.App_GlobalResources.NorthWindResource.CategoryName', encoded: false, attributes: { style: "text-align:center;" } },
+                    { field: 'QuantityPerUnit', title: '@MyWeb.Resource.App_GlobalResources.NorthWindResource.QuantityPerUnit', encoded: false, attributes: { style: "text-align:center;" } },
+                    { field: 'UnitPrice', title: '@MyWeb.Resource.App_GlobalResources.NorthWindResource.UnitPrice', encoded: false, attributes: { style: "text-align:center;" } },
+                    { field: 'UnitsInStock', title: '@MyWeb.Resource.App_GlobalResources.NorthWindResource.UnitsInStock', encoded: false, attributes: { style: "text-align:center;" } },
+                    { field: 'UnitsOnOrder', title: '@MyWeb.Resource.App_GlobalResources.NorthWindResource.UnitsOnOrder', encoded: false, attributes: { style: "text-align:center;" } }
+                ],
+                noRecords: {
+                    template: "<em>查無符合資料!</em>"
+                },
+                pageable: {
+                    pageSizes: true
+                },
+                sortable: {
+                    mode: "single",
+                    allowUnsort: false
+                },
+            }).data('kendoGrid');
+
+            $.ajax({
+                url: apiStr,
+                type: 'GET',
+                async: false,
+                success: function (res) {
+                    setGrid("grid", res);
+                }
+            });
+            initTooltip(grid);
+        }
+
+        function setGrid(gridName, res) {
+            var grid = $("#" + gridName + "").data("kendoGrid");
+            var dataSource = new kendo.data.DataSource({ data: res, pageSize: 10 });
+            grid.setDataSource(dataSource);
+        }
+
+        function initTooltip(grid) {
+             grid.thead.kendoTooltip({
+                filter: "th",
+                content: function (e) {
+                    var target = e.target; // element for which the tooltip is shown
+                    return $(target).text();
+                }
+            });
+        }
+
+        function GetDetail(pid) {
+            openDialog(pid);
+        }
+
+        var dialog = new Object;
+        function openDialog(pid) {
+            dialog = new BootstrapDialog({
+                title: '產品資訊',
+                type: BootstrapDialog.TYPE_SUCCESS,
+                id: 'products_popup',
+                closable: true,
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                cssClass: 'mydialog',
+                message: function (dialogMessage) {
+                    var pageContent = String.format("<iframe width=\"100%\" height=\"{2}\" frameborder=\"0\"  allowtransparency=\"true\" src=\"{0}{1}\"></iframe>", dialogMessage.getData('pageToLoad'), dialogMessage.getData('pageParam'), $(window).innerHeight()/2);
+                    var $content = $(pageContent);
+                    return $content;
+                },
+                draggable: true,
+                data: {
+                    'pageToLoad': '',
+                    'pageParam': ''
+                },
+                animate: false,
+                onshow: function (dialogRef) {
+                },
+                onhide: function (dialogRef) {
+                },
+                onhidden: function (dialogRef) {
+                }
+            });
+
+            dialog.setData('pageToLoad', '@Url.Action("Detail", new { area = "" })');
+            dialog.setData('pageParam', '?pid=' + pid);
+
+            dialog.realize();
+            //dialog.setSize(BootstrapDialog.SIZE_WIDE);
+            dialog.open();
+        }
+
+        $(function () {
+            initGrid();
+        });
+    </script>
+}
