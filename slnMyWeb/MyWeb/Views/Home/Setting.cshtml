@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewBag.Title = "語系設定";
+}
+
+<h2>語系設定</h2>
+
+<select id="lang_dropdownlist">
+    <option value="">請選擇</option>
+    <option value="zh-TW">繁體中文</option>
+    <option value="en-US">英文</option>
+</select>
+
+<script>
+        $(document).ready(function () {
+            var apiUrl='@Url.HttpRouteUrl("ServiceAreaApi", new { controller= "LangService", action= "ChangeLang" })';
+            $("#lang_dropdownlist").kendoDropDownList({
+                change: function (e) {
+                    var value = this.value();
+                    // Use the value of the widget
+                    if (value != "") {
+                        $.post(apiUrl, { culture: value }, function (msg) {
+                            console.log(msg);
+                        });
+                    }
+                }
+            });
+        });
+</script>
+

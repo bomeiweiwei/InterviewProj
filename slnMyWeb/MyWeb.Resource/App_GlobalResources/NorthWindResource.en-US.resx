@@ -120,7 +120,37 @@
   <data name="CategoryID" xml:space="preserve">
     <value>CategoryID</value>
   </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>CategoryName</value>
+  </data>
+  <data name="Discontinued" xml:space="preserve">
+    <value>Discontinued</value>
+  </data>
+  <data name="Field_MaxLength" xml:space="preserve">
+    <value>{0} cannot be longer than {1} characters</value>
+  </data>
+  <data name="Field_Required" xml:space="preserve">
+    <value>{0} is required</value>
+  </data>
+  <data name="ProductID" xml:space="preserve">
+    <value>ProductID</value>
+  </data>
   <data name="ProductName" xml:space="preserve">
     <value>ProductName</value>
+  </data>
+  <data name="QuantityPerUnit" xml:space="preserve">
+    <value>QuantityPerUnit</value>
+  </data>
+  <data name="SupplierID" xml:space="preserve">
+    <value>SupplierID</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>UnitPrice</value>
+  </data>
+  <data name="UnitsInStock" xml:space="preserve">
+    <value>UnitsInStock</value>
+  </data>
+  <data name="UnitsOnOrder" xml:space="preserve">
+    <value>UnitsOnOrder</value>
   </data>
 </root>

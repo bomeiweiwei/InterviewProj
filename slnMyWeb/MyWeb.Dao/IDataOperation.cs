@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MyWeb.Dao
 {
-    public interface IDataOperation<T> where T : class, new()
+    public interface IDataOperation<T> where T : class
     {
         IQueryable<T> Get(Expression<Func<T, bool>> whereLambda);
         T FindOne(Expression<Func<T, bool>> whereLambda);

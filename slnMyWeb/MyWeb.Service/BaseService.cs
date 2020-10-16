@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace MyWeb.Service
 {
-    public class BaseService<T> where T : class, new()
+    public class BaseService<T> where T : class
     {
-        private BaseDao<T> serviceModel;
+        private readonly BaseDao<T> serviceModel;
         public BaseService()
         {
             this.serviceModel = new BaseDao<T>();
@@ -23,7 +23,7 @@ namespace MyWeb.Service
         /// <returns></returns>
         public IQueryable<T> Get(Expression<Func<T, bool>> whereLambda)
         {
-            return serviceModel.GetData.Get(whereLambda);
+            return serviceModel.DataOperation.Get(whereLambda);
         }
         /// <summary>
         /// 取得單一資料
@@ -32,7 +32,7 @@ namespace MyWeb.Service
         /// <returns></returns>
         public T FindOne(Expression<Func<T, bool>> whereLambda)
         {
-            return serviceModel.GetData.FindOne(whereLambda);
+            return serviceModel.DataOperation.FindOne(whereLambda);
         }
         /// <summary>
         /// 取得所有資料
@@ -40,7 +40,7 @@ namespace MyWeb.Service
         /// <returns></returns>
         public IQueryable<T> GetAll()
         {
-            return serviceModel.GetData.GetAll();
+            return serviceModel.DataOperation.GetAll();
         }
         /// <summary>
         /// 新增資料
@@ -49,7 +49,7 @@ namespace MyWeb.Service
         /// <returns></returns>
         public int Create(T Item)
         {
-            return serviceModel.GetData.Create(Item);
+            return serviceModel.DataOperation.Create(Item);
         }
         /// <summary>
         /// 更新資料
@@ -58,7 +58,7 @@ namespace MyWeb.Service
         /// <returns></returns>
         public int Update(T Item)
         {
-            return serviceModel.GetData.Update(Item);
+            return serviceModel.DataOperation.Update(Item);
         }
         /// <summary>
         /// 刪除資料
@@ -67,7 +67,7 @@ namespace MyWeb.Service
         /// <returns></returns>
         public int Delete(T Item)
         {
-            return serviceModel.GetData.Delete(Item);
+            return serviceModel.DataOperation.Delete(Item);
         }
         /// <summary>
         /// Get Current Context
@@ -75,7 +75,7 @@ namespace MyWeb.Service
         /// <returns></returns>
         public DbContext GetCurrentContext()
         {
-            return serviceModel.GetData.GetCurrentContext();
+            return serviceModel.DataOperation.GetCurrentContext();
         }
     }
 }

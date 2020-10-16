@@ -52,8 +52,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
+    <Compile Include="CategoriesService.cs" />
     <Compile Include="ProductsService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SuppliersService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyWeb.Common\MyWeb.Common.csproj">

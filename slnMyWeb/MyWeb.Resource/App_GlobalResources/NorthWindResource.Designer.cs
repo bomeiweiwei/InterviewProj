@@ -70,11 +70,101 @@ namespace MyWeb.Resource.App_GlobalResources {
         }
         
         /// <summary>
+        ///   查詢類似 產品類別 的當地語系化字串。
+        /// </summary>
+        public static string CategoryName {
+            get {
+                return ResourceManager.GetString("CategoryName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 已停產 的當地語系化字串。
+        /// </summary>
+        public static string Discontinued {
+            get {
+                return ResourceManager.GetString("Discontinued", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 {0}不能輸入大於{1}字元 的當地語系化字串。
+        /// </summary>
+        public static string Field_MaxLength {
+            get {
+                return ResourceManager.GetString("Field_MaxLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 請輸入{0} 的當地語系化字串。
+        /// </summary>
+        public static string Field_Required {
+            get {
+                return ResourceManager.GetString("Field_Required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 產品ID 的當地語系化字串。
+        /// </summary>
+        public static string ProductID {
+            get {
+                return ResourceManager.GetString("ProductID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   查詢類似 產品名稱 的當地語系化字串。
         /// </summary>
         public static string ProductName {
             get {
                 return ResourceManager.GetString("ProductName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 單位量 的當地語系化字串。
+        /// </summary>
+        public static string QuantityPerUnit {
+            get {
+                return ResourceManager.GetString("QuantityPerUnit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 供應商 的當地語系化字串。
+        /// </summary>
+        public static string SupplierID {
+            get {
+                return ResourceManager.GetString("SupplierID", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 單價 的當地語系化字串。
+        /// </summary>
+        public static string UnitPrice {
+            get {
+                return ResourceManager.GetString("UnitPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 庫存數量 的當地語系化字串。
+        /// </summary>
+        public static string UnitsInStock {
+            get {
+                return ResourceManager.GetString("UnitsInStock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類似 訂購數量 的當地語系化字串。
+        /// </summary>
+        public static string UnitsOnOrder {
+            get {
+                return ResourceManager.GetString("UnitsOnOrder", resourceCulture);
             }
         }
     }

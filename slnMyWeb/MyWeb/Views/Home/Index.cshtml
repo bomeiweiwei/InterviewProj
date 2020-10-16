@@ -1,31 +1,113 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using PagedList.Mvc
+@using PagedList
+@model MyWeb.Models.ViewModel.ProductsCategoriesViewModel
+
+@{
+    ViewBag.Title = "Index";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<style>
+    .vertical-menu {
+    }
+
+    .vertical-menu a {
+        background-color: #eee;
+        color: black;
+        display: block;
+        padding: 12px;
+        text-decoration: none;
+    }
+
+    .vertical-menu a:hover {
+        background-color: #ccc;
+    }
+
+    .vertical-menu a.active {
+        background-color: #4CAF50;
+        color: white;
+    }
+</style>
+<link href="~/Content/PagedList.css" rel="stylesheet" />
+
+@{
+    List<MyWeb.Models.Categories> categories = ViewBag.CategoryList;
+    List<MyWeb.Models.Suppliers> suppliers = ViewBag.SupplierList;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <h3>商品資訊網頁</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-2">
+        <div class="vertical-menu">
+            <a href="#" class="active">@Html.DisplayNameFor(m => m.ProductsList.FirstOrDefault().Categories.CategoryName)</a>
+            @foreach (var item in Model.CategoriesList)
+            {
+                @Html.ActionLink(item.CategoryName, "Index", new { catId = item.CategoryID })
+            }
+        </div>
+    </div>
+    <div class="col-sm-10">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.ProductsList.FirstOrDefault().ProductName)
+                </th>
+                <th style="width:10%">
+                    @Html.DisplayNameFor(model => model.ProductsList.FirstOrDefault().SupplierID)
+                </th>
+                <th style="width:10%">
+                    @Html.DisplayNameFor(model => model.ProductsList.FirstOrDefault().CategoryID)
+                </th>
+                <th style="width:10%">
+                    @Html.DisplayNameFor(model => model.ProductsList.FirstOrDefault().QuantityPerUnit)
+                </th>
+                <th style="width:10%">
+                    @Html.DisplayNameFor(model => model.ProductsList.FirstOrDefault().UnitPrice)
+                </th>
+                <th style="width:10%">
+                    @Html.DisplayNameFor(model => model.ProductsList.FirstOrDefault().Discontinued)
+                </th>
+            </tr>
+
+            @foreach (var item in Model.ProductsList)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ProductName)
+                    </td>
+                    <td>
+                        @suppliers.Where(m => m.SupplierID == item.SupplierID).FirstOrDefault().CompanyName
+                    </td>
+                    <td>
+                        @categories.Where(m => m.CategoryID == item.CategoryID).FirstOrDefault().CategoryName
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.QuantityPerUnit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UnitPrice)
+                    </td>
+                    <td>
+                        @if (item.Discontinued)
+                        {
+                            @:是
+                        }
+                        else
+                        {
+                            @:否
+                        }
+                    </td>
+                </tr>
+            }
+
+        </table>
+        @Html.PagedListPager(Model.ProductsPageList, page => Url.Action("Index", new { page, @ViewBag.catId }))
+    </div>
+
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-    </div>
-</div>
+@section scripts{
+
+}

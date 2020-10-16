@@ -120,7 +120,37 @@
   <data name="CategoryID" xml:space="preserve">
     <value>產品類別</value>
   </data>
+  <data name="CategoryName" xml:space="preserve">
+    <value>產品類別</value>
+  </data>
+  <data name="Discontinued" xml:space="preserve">
+    <value>已停產</value>
+  </data>
+  <data name="Field_MaxLength" xml:space="preserve">
+    <value>{0}不能輸入大於{1}字元</value>
+  </data>
+  <data name="Field_Required" xml:space="preserve">
+    <value>請輸入{0}</value>
+  </data>
+  <data name="ProductID" xml:space="preserve">
+    <value>產品ID</value>
+  </data>
   <data name="ProductName" xml:space="preserve">
     <value>產品名稱</value>
+  </data>
+  <data name="QuantityPerUnit" xml:space="preserve">
+    <value>單位量</value>
+  </data>
+  <data name="SupplierID" xml:space="preserve">
+    <value>供應商</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>單價</value>
+  </data>
+  <data name="UnitsInStock" xml:space="preserve">
+    <value>庫存數量</value>
+  </data>
+  <data name="UnitsOnOrder" xml:space="preserve">
+    <value>訂購數量</value>
   </data>
 </root>

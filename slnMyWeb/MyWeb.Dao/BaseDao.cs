@@ -12,24 +12,24 @@ using System.Linq.Expressions;
 
 namespace MyWeb.Dao
 {
-    public class BaseDao<T> where T : class, new()
+    public class BaseDao<T> where T : class
     {
         public BaseDao()
         {
-            this.GetData = new BaseDataOperation();
+            this.DataOperation = new BaseDataOperation();
         }
-        public IDataOperation<T> GetData { get; } = null;
+        public IDataOperation<T> DataOperation { get; } = null;
 
-        public class BaseDataOperation : IDataOperation<T>
+        public class BaseDataOperation : IDataOperation<T>, IDisposable
         {
-            private readonly DbContext db;
+            private readonly DbContext _context;
             /// <summary>
             /// 設定DB
             /// </summary>
             /// <param name="entity">列舉值</param>
             public BaseDataOperation()
             {
-                db = new NorthwindEntities();
+                _context = new NorthwindEntities();
             }
             /// <summary>
             /// 取得資料
@@ -38,7 +38,7 @@ namespace MyWeb.Dao
             /// <returns></returns>
             public IQueryable<T> Get(Expression<Func<T, bool>> whereLambda)
             {
-                return db.Set<T>().AsExpandable().Where(whereLambda);
+                return _context.Set<T>().AsExpandable().Where(whereLambda);
             }
             /// <summary>
             /// 取得單一資料
@@ -47,7 +47,7 @@ namespace MyWeb.Dao
             /// <returns></returns>
             public T FindOne(Expression<Func<T, bool>> whereLambda)
             {
-                return db.Set<T>().AsExpandable().Where(whereLambda).FirstOrDefault();
+                return _context.Set<T>().AsExpandable().Where(whereLambda).FirstOrDefault();
             }
             /// <summary>
             /// 取得所有資料
@@ -55,7 +55,7 @@ namespace MyWeb.Dao
             /// <returns></returns>
             public IQueryable<T> GetAll()
             {
-                return db.Set<T>();
+                return _context.Set<T>();
             }
             /// <summary>
             /// 新增資料
@@ -66,8 +66,8 @@ namespace MyWeb.Dao
             {
                 try
                 {
-                    db.Set<T>().Add(Item);
-                    return db.SaveChanges();
+                    _context.Set<T>().Add(Item);
+                    return _context.SaveChanges();
                 }
                 catch (DbEntityValidationException)
                 {
@@ -91,8 +91,8 @@ namespace MyWeb.Dao
             {
                 try
                 {
-                    db.Entry(Item).State = EntityState.Modified;
-                    return db.SaveChanges();
+                    _context.Entry(Item).State = EntityState.Modified;
+                    return _context.SaveChanges();
                 }
                 catch (DbEntityValidationException)
                 {
@@ -116,8 +116,8 @@ namespace MyWeb.Dao
             {
                 try
                 {
-                    db.Set<T>().Remove(Item);
-                    return db.SaveChanges();
+                    _context.Set<T>().Remove(Item);
+                    return _context.SaveChanges();
                 }
                 catch (DbEntityValidationException)
                 {
@@ -138,8 +138,27 @@ namespace MyWeb.Dao
             /// <returns></returns>
             public DbContext GetCurrentContext()
             {
-                return db;
+                return _context;
             }
+
+            private bool disposed = false;
+            protected virtual void Dispose(bool disposing)
+            {
+                if (!this.disposed)
+                {
+                    if (disposing)
+                    {
+                        _context.Dispose();
+                    }
+                }
+                this.disposed = true;
+            }
+            public void Dispose()
+            {
+                Dispose(true);
+                GC.SuppressFinalize(this);
+            }
+            
         }
     }
 }

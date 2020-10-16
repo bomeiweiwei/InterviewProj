@@ -9,8 +9,8 @@ namespace MyWeb.Service
 {
     public class ProductsService : BaseService<Products>
     {
-        public ProductsService() : base()
-        {
-        }
+        //public ProductsService() : base()
+        //{
+        //}
     }
 }
