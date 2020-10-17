@@ -63,6 +63,7 @@
     <Compile Include="Employees.cs">
       <DependentUpon>NorthWindModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="ExecuteResult.cs" />
     <Compile Include="NorthWindModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

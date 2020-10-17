@@ -1,4 +1,5 @@
-﻿using MyWeb.Models.ViewModel;
+﻿using MyWeb.Models;
+using MyWeb.Models.ViewModel;
 using MyWeb.Service;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Web.Http;
 
 namespace MyWeb.Areas.Service.Controllers
 {
+    //Service
     public class ProductsController : ApiController
     {
         private readonly ProductsService service;
@@ -16,15 +18,30 @@ namespace MyWeb.Areas.Service.Controllers
         {
             service = new ProductsService();
         }
-        public IQueryable<vw_Products> GetProducts()
+        public IQueryable<vw_Products> Get()
         {
             IQueryable<vw_Products> list = service.GetProductsList(0).AsQueryable();
             return list;
         }
-        public IHttpActionResult GetProduct(int id)
+        public IHttpActionResult Get(int id)
         {
             vw_Products obj = service.GetProductsList(id).FirstOrDefault();
             return Ok(obj);
+        }
+
+        public IHttpActionResult Post(vw_Products model)
+        {
+            ExecuteResult executeResult = new ExecuteResult();
+            executeResult.Success = service.CreateProduct(model);
+            return Ok(executeResult);
+        }
+
+        public void Put(int id, vw_Products model)
+        {
+        }
+
+        public void Delete(int id)
+        {
         }
     }
 }

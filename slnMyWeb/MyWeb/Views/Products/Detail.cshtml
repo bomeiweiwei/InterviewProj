@@ -14,56 +14,56 @@
             @Html.DisplayNameFor(model => model.ProductName)
         </dt>
 
-        <dd>
-            @Html.TextBox("ProductName")
+        <dd id="dProductName">
+                 
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.SupplierID)
         </dt>
 
-        <dd>
-            @Html.TextBox("CompanyName")
+        <dd id="dCompanyName">
+
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.CategoryID)
         </dt>
 
-        <dd>
-            @Html.TextBox("CategoryName")
+        <dd id="dCategoryName">
+
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.QuantityPerUnit)
         </dt>
 
-        <dd>
-            @Html.TextBox("QuantityPerUnit")
+        <dd id="dQuantityPerUnit">
+           
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.UnitPrice)
         </dt>
 
-        <dd>
-            @Html.TextBox("UnitPrice")
+        <dd id="dUnitPrice">
+            
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.UnitsInStock)
         </dt>
 
-        <dd>
-            @Html.TextBox("UnitsInStock")
+        <dd id="dUnitsInStock">
+           
         </dd>
 
         <dt>
             @Html.DisplayNameFor(model => model.UnitsOnOrder)
         </dt>
 
-        <dd>
-            @Html.TextBox("UnitsOnOrder")
+        <dd id="dUnitsOnOrder">
+            
         </dd>
 
     </dl>
@@ -79,13 +79,14 @@
                 type: 'GET',
                 async: false,
                 success: function (data) {
-                    $("#ProductName").val(data.ProductName);
-                    $("#CompanyName").val(data.CompanyName);
-                    $("#CategoryName").val(data.CategoryName);
-                    $("#QuantityPerUnit").val(data.QuantityPerUnit);
-                    $("#UnitPrice").val(data.UnitPrice);
-                    $("#UnitsInStock").val(data.UnitsInStock);
-                    $("#UnitsOnOrder").val(data.UnitsOnOrder);
+                    //$("#ProductName").val(data.ProductName);
+                    $("#dProductName").text(data.ProductName);
+                    $("#dCompanyName").text(data.CompanyName);
+                    $("#dCategoryName").text(data.CategoryName);
+                    $("#dQuantityPerUnit").text(data.QuantityPerUnit);
+                    $("#dUnitPrice").text(data.UnitPrice);
+                    $("#dUnitsInStock").text(data.UnitsInStock);
+                    $("#dUnitsOnOrder").text(data.UnitsOnOrder);
                 }
             });
         }

@@ -1,0 +1,174 @@
+﻿@model MyWeb.Models.ViewModel.vw_Products
+
+@{
+    ViewBag.Title = "新增產品";
+    Layout = "~/Views/Shared/_LayoutPopup.cshtml";
+}
+
+@using (Ajax.BeginForm("", "", null,
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        Url = Url.HttpRouteUrl("DefaultApi", new { controller = "Products" }),
+        OnSuccess = "OnSuccess",
+        OnFailure = "OnFailure",
+        OnComplete = "OnComplete"
+    }, new { id = "frmCall", @class = "uk-card uk-text-left" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ProductName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ProductName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ProductName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SupplierID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SupplierID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SupplierID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.QuantityPerUnit, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.QuantityPerUnit, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @value = "0" } })
+                @Html.ValidationMessageFor(model => model.QuantityPerUnit, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UnitPrice, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @value = "0" } })
+                @Html.ValidationMessageFor(model => model.UnitPrice, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitsInStock, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UnitsInStock, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @value = "0" } })
+                @Html.ValidationMessageFor(model => model.UnitsInStock, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.UnitsOnOrder, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.UnitsOnOrder, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @value = "0" } })
+                @Html.ValidationMessageFor(model => model.UnitsOnOrder, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReorderLevel, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReorderLevel, new { htmlAttributes = new { @class = "form-control", @type = "number", @min = "0", @value = "0" } })
+                @Html.ValidationMessageFor(model => model.ReorderLevel, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Discontinued, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.CheckBox("Discontinued", new { @class = "tickbox-single-line" })
+                    @Html.ValidationMessageFor(model => model.Discontinued, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="KSubmit" value="存檔" />
+            </div>
+        </div>
+    </div>
+}
+
+<div id="cover" style="display:none">
+    <div id="ProcessWindow"></div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        function OnSuccess(result) {
+            var kWindow = $("#ProcessWindow").data("kendoWindow");
+            kWindow.close();
+            if (result.Success) {
+                if (typeof window.parent.closeDialog === 'function') {
+                    //此popup由BootstrapDialogTest開啟，回上頁的關閉功能
+                    window.parent.closeDialog();
+                }
+            } 
+        }
+
+        function OnFailure(xhr, status) {          
+            myalert('Error: ' + decodeURI(xhr.statusText), 0);
+            $("#cover").hide();
+        }
+
+        function OnComplete(XMLHttpRequest, textStatus) {
+            $("#cover").hide();
+        }
+
+        function myalert(content, success) {
+            var divName = 'showAlert';
+            var iDiv = document.createElement('div');
+            iDiv.id = divName;
+            document.getElementsByTagName('body')[0].appendChild(iDiv);
+            $('#' + divName).kendoAlert({
+                title: "訊息",
+                content: content,
+                width: 400,
+            }).data("kendoAlert").open();
+            if (success == 1)
+                $('#' + divName).parent().find('.k-window-titlebar').css('backgroundColor', '#0094ff');
+            else
+                $('#' + divName).parent().find('.k-window-titlebar').css('backgroundColor', '#ff0000');
+        }
+
+        $("#KSubmit").click(function () {
+
+            $("#cover").show();
+
+            var kWindow = $("#ProcessWindow").data("kendoWindow");
+            kendo.ui.progress(kWindow.element, true);
+            kWindow.center().open();
+
+            $("#frmCall").submit();
+        });
+
+        $(function () {
+            $("#KSubmit").kendoButton();
+
+            //kendo window setting
+            $("#ProcessWindow").kendoWindow({
+                width: "100px",
+                height: "100px",
+                title: false,
+                visible: false,
+                close: function (e) {
+                    // the closing animation has finished
+                }
+            }).data("kendoWindow");
+            $("#ProcessWindow").parent().find(".k-window-action").css("visibility", "hidden");
+        });        
+    </script>
+}

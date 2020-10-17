@@ -4,8 +4,6 @@ using MyWeb.Models.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MyWeb.Common;
 
 namespace MyWeb.Dao.Sql
@@ -62,6 +60,6 @@ namespace MyWeb.Dao.Sql
                 return list;
             }
             return list;
-        }
+        }        
     }
 }
