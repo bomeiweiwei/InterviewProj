@@ -29,11 +29,13 @@ namespace MyWeb.Controllers
 
         public ActionResult Detail(int? id)
         {
+            vw_Products model = new vw_Products();
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View();
+            model.ProductID = id.Value;
+            return View(model);
         }
 
         public ActionResult Create()
@@ -58,6 +60,21 @@ namespace MyWeb.Controllers
             ViewBag.CategoryID = new SelectList(categoriesService.GetAll(), "CategoryID", "CategoryName", products.CategoryID);
             ViewBag.SupplierID = new SelectList(suppliersService.GetAll(), "SupplierID", "CompanyName", products.SupplierID);
             return View(products);
+        }
+        [HttpPost]
+        public ActionResult Query(string searchProductName) 
+        {
+            List<vw_Products> vw_Products = new List<vw_Products>();
+            vw_Products = productsService.GetProductsList(0);
+            if (string.IsNullOrWhiteSpace(searchProductName))
+            {
+                return Json(vw_Products);
+            }
+            else
+            {
+                vw_Products = vw_Products.Where(m => m.ProductName.Contains(searchProductName)).ToList();
+                return Json(vw_Products);
+            }
         }
     }
 }

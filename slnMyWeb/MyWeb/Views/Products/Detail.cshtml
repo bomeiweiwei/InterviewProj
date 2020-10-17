@@ -71,7 +71,7 @@
 
 @section scripts{
     <script type="text/javascript">
-        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "Products" })';
+        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "ProductsApi" })' + '/' + '@Model.ProductID';
         debugger;
         function init() {
             $.ajax({

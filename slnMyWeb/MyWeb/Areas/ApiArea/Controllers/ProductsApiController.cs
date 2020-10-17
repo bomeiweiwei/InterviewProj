@@ -9,13 +9,13 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
 
-namespace MyWeb.Areas.Service.Controllers
+namespace MyWeb.Areas.ApiArea.Controllers
 {
-    //Service
-    public class ProductsController : ApiController
+    public class ProductsApiController : ApiController
     {
+        // GET: api/ProductsApi
         private readonly ProductsService service;
-        public ProductsController()
+        public ProductsApiController()
         {
             service = new ProductsService();
         }

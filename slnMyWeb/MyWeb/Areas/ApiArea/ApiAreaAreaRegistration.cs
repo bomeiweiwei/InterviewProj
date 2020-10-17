@@ -1,23 +1,22 @@
-﻿using System.Web.Http;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
-namespace MyWeb.Areas.Service
+namespace MyWeb.Areas.ApiArea
 {
-    public class ServiceAreaRegistration : AreaRegistration 
+    public class ApiAreaAreaRegistration : AreaRegistration 
     {
         public override string AreaName 
         {
             get 
             {
-                return "Service";
+                return "ApiArea";
             }
         }
 
         public override void RegisterArea(AreaRegistrationContext context) 
         {
             context.MapRoute(
-                "Service_default",
-                "Service/{controller}/{action}/{id}",
+                "ApiArea_default",
+                "ApiArea/{controller}/{action}/{id}",
                 new { action = "Index", id = UrlParameter.Optional }
             );
         }

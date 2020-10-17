@@ -8,12 +8,8 @@
 @using (Ajax.BeginForm("", "", null,
     new AjaxOptions
     {
-        OnBegin = "beginSubmit",
+        //OnBegin = "beginSubmit",
         //HttpMethod = "PUT",
-        Url = Url.HttpRouteUrl("DefaultApi", new { controller = "Products" }),
-        OnSuccess = "OnSuccess",
-        OnFailure = "OnFailure",
-        OnComplete = "OnComplete"
     }, new { id = "frmCall", @class = "uk-card uk-text-left" }))
 {
     @Html.AntiForgeryToken()
@@ -108,48 +104,46 @@
 
 @section scripts{
     <script type="text/javascript">
-        function beginSubmit(xhr, o) {
-            o.type = "PUT";
-        }
-
-        function OnSuccess(result) {
-            if (result.Success) {
-                if (typeof window.parent.closeDialog === 'function') {
-                    //此popup由BootstrapDialogTest開啟，回上頁的關閉功能
-                    window.parent.closeDialog();
-                }
-            }
-        }
-
-        function OnFailure(xhr, status) {
-            //myalert('Error: ' + decodeURI(xhr.statusText), 0);
-            var jResponse = JSON.parse(xhr.responseText);
-            myalert('Error: ' + decodeURI(jResponse.Message), 0);
-        }
-
-        function OnComplete(XMLHttpRequest, textStatus) {
-        }
-
-        function myalert(content, success) {
-            var divName = 'showAlert';
-            var iDiv = document.createElement('div');
-            iDiv.id = divName;
-            document.getElementsByTagName('body')[0].appendChild(iDiv);
-            $('#' + divName).kendoAlert({
-                title: "訊息",
-                content: content,
-                width: 400,
-            }).data("kendoAlert").open();
-            if (success == 1)
-                $('#' + divName).parent().find('.k-window-titlebar').css('backgroundColor', '#0094ff');
-            else
-                $('#' + divName).parent().find('.k-window-titlebar').css('backgroundColor', '#ff0000');
-        }
+        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "ProductsApi" })' + '/' + '@Model.ProductID';
+        //function beginSubmit(xhr, o) {
+        //    o.type = "PUT";
+        //}
 
         $("#KSubmit").click(function () {
             var r = confirm('確定要變更嗎?');
             if (r == true) {
-                $("#frmCall").submit();
+                var obj = $("#frmCall").serializeObject();
+                
+                $.ajax({
+                    url: apiStr,
+                    type: 'PUT',
+                    data: obj,
+                    error: function (xhr, textStatus, errorThrown) {
+                        //Handle the server errors using the approach from the previous example
+                        var jsonResponse = JSON.parse(xhr.responseText);
+                        BootstrapDialog.alert({
+                            message: jsonResponse.Message,
+                            type: BootstrapDialog.TYPE_DANGER,
+                            callback: function (result) {
+                            }
+                        });
+                    },
+                    success: function (data, textStatus, xhr) {
+                        //BootstrapDialog.alert({
+                        //    message: data.Message,
+                        //    type: BootstrapDialog.TYPE_INFO,
+                        //    callback: function (result) {
+                        //    }
+                        //});
+                        if (typeof window.parent.closeDialog === 'function') {
+                            //此popup由BootstrapDialogTest開啟，回上頁的關閉功能
+                            window.parent.closeDialog();
+                        }
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                    }
+                });
+                //$("#frmCall").submit();
             }
         });
 

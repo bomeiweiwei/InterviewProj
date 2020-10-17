@@ -13,14 +13,39 @@
 
 <script>
         $(document).ready(function () {
-            var apiUrl='@Url.HttpRouteUrl("DefaultApi", new { controller= "LangService", action= "ChangeLang" })';
+            var apiUrl='@Url.HttpRouteUrl("DefaultApi", new { controller= "LangApi" })';
             $("#lang_dropdownlist").kendoDropDownList({
                 change: function (e) {
                     var value = this.value();
                     // Use the value of the widget
                     if (value != "") {
-                        $.post(apiUrl, { culture: value }, function (msg) {
-                            console.log(msg);
+                        //$.post(apiUrl, { culture: value }, function (msg) {
+                        //    console.log(msg);
+                        //});
+                        $.ajax({
+                            url: apiUrl,
+                            type: 'PUT',
+                            data: { culture: value },
+                            error: function (xhr, textStatus, errorThrown) {
+                                //Handle the server errors using the approach from the previous example
+                                var jsonResponse = JSON.parse(xhr.responseText);
+                                BootstrapDialog.alert({
+                                    message: jsonResponse.Message,
+                                    type: BootstrapDialog.TYPE_DANGER,
+                                    callback: function (result) {
+                                    }
+                                });
+                            },
+                            success: function (data, textStatus, xhr) {
+                                BootstrapDialog.alert({
+                                    message: data.Message,
+                                    type: BootstrapDialog.TYPE_INFO,
+                                    callback: function (result) {
+                                    }
+                                });
+                            },
+                            complete: function (XMLHttpRequest, textStatus) {
+                            }
                         });
                     }
                 }

@@ -17,6 +17,12 @@
     </div>
     <div class="row">
         <div class="col-12">
+            <button type="button" class="btn btn-outline-primary" onclick="funSearchProduct()">查詢產品</button>
+            <input type="text" id="searchProductName" placeholder="請輸入要查詢的產品名稱"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
             <div id="grid"></div>
         </div>
     </div>
@@ -24,7 +30,7 @@
 
 @section scripts{
     <script type="text/javascript">
-        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "Products" })';
+        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "ProductsApi" })';
         var dataSource = new kendo.data.DataSource({
             transport: {
                 read: function (options) {
@@ -124,10 +130,27 @@
                         }
                     },
                     error: function (result) {
-                        
+
                     }
                 });
             }
+        }
+
+        function funSearchProduct() {
+            $.ajax({
+                url: '@Url.Action("Query")',
+                data: { searchProductName: $("#searchProductName").val() },
+                type: 'POST',
+                success: function (res) {
+                    setGrid("grid", res);
+                }
+            });
+        }
+
+        function setGrid(gridName, res) {
+            var grid = $("#" + gridName + "").data("kendoGrid");
+            var dataSource = new kendo.data.DataSource({ data: res, pageSize: 10 });
+            grid.setDataSource(dataSource);
         }
 
         var dialog = new Object;
