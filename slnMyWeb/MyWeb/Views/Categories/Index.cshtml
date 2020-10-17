@@ -1,0 +1,104 @@
+﻿@model IEnumerable<MyWeb.Models.ViewModel.vw_Categories>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<p>
+    <button type="button" class="btn btn-success" onclick="openDialog(0,'create')">Create New</button>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CategoryName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        @*<th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>*@
+        <th></th>
+    </tr>
+    @{ 
+        int index = 0;
+    }
+@foreach (var item in Model) 
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CategoryName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        @*<td>
+            <img runat="server" id="image_@index" src="@item.Src"/>
+        </td>*@
+    <td>
+        <button type="button" class="btn btn-primary" onclick="openDialog('@item.CategoryID','edit')">Edit</button> |
+        <button type="button" class="btn btn-warning" onclick="openDialog('@item.CategoryID','detail')">Details</button> |
+        <button type="button" class="btn btn-danger" onclick="">Delete</button>
+    </td>
+    </tr>
+    index++;
+}
+
+</table>
+@section scripts{
+    <script type="text/javascript">
+        var dialog = new Object;
+        function openDialog(id, actionPage) {
+            var openUrl = '';
+            if (actionPage == 'detail') {
+                openUrl = '@Url.Action("Detail", new { area = "" })';
+            } else if (actionPage == 'create') {
+                openUrl = '@Url.Action("Create", new { area = "" })';
+            } else if (actionPage == 'edit') {
+                openUrl = '@Url.Action("Edit", new { area = "" })';
+            }
+            //debugger;
+            dialog = new BootstrapDialog({
+                title: '資訊',
+                type: BootstrapDialog.TYPE_INFO,
+                id: 'cat_popup',
+                closable: true,
+                closeByBackdrop: false,
+                closeByKeyboard: false,
+                cssClass: 'mydialog',
+                message: function (dialogMessage) {
+                    var pageContent = String.format("<iframe width=\"100%\" height=\"{2}\" frameborder=\"0\"  allowtransparency=\"true\" src=\"{0}{1}\"></iframe>", dialogMessage.getData('pageToLoad'), dialogMessage.getData('pageParam'), $(window).innerHeight()/1.5);
+                    var $content = $(pageContent);
+                    return $content;
+                },
+                draggable: true,
+                data: {
+                    'pageToLoad': '',
+                    'pageParam': ''
+                },
+                animate: false,
+                onshow: function (dialogRef) {
+                },
+                onhide: function (dialogRef) {
+                },
+                onhidden: function (dialogRef) {
+                }
+            });
+
+            dialog.setData('pageToLoad', openUrl);
+            dialog.setData('pageParam', '/' + id);
+
+            dialog.realize();
+            //dialog.setSize(BootstrapDialog.SIZE_WIDE);
+            dialog.open();
+        }
+
+        function closeDialog() {
+            dialog.close();
+            dataSource.read();
+        }
+        $(function () {
+        });
+    </script>
+}

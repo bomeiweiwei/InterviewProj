@@ -152,6 +152,7 @@
     <Compile Include="Areas\ApiArea\Controllers\LangApiController.cs" />
     <Compile Include="Areas\ApiArea\Controllers\ProductsApiController.cs" />
     <Compile Include="Areas\ApiArea\Controllers\SuppliersApiController.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2861,13 +2862,16 @@
     <Content Include="Views\Products\Detail.cshtml" />
     <Content Include="Views\Products\Create.cshtml" />
     <Content Include="Views\Products\Edit.cshtml" />
+    <Content Include="Views\Categories\Index.cshtml" />
+    <Content Include="Views\Categories\Detail.cshtml" />
+    <Content Include="Views\Categories\Create.cshtml" />
+    <Content Include="Views\Categories\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\ApiArea\Data\" />
     <Folder Include="Areas\ApiArea\Views\Shared\" />
     <Folder Include="Models\" />
-    <Folder Include="Views\Categories\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

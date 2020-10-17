@@ -135,6 +135,7 @@
       <DependentUpon>NorthWindModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\ProductsCategoriesViewModel.cs" />
+    <Compile Include="ViewModel\vw_Categories.cs" />
     <Compile Include="ViewModel\vw_Products.cs" />
   </ItemGroup>
   <ItemGroup>
