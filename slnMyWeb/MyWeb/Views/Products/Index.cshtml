@@ -108,6 +108,28 @@
             openDialog(id, 'edit');
         }
 
+        function DeleteProduct(id) {
+            var r = confirm('確定要刪除嗎?');
+            if (r == true) {
+                var url = apiStr + '/' + id;
+                debugger;
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    async: false,
+                    success: function (result) {
+                        if (result.Success) {
+                            alert('刪除成功');
+                            dataSource.read();
+                        }
+                    },
+                    error: function (result) {
+                        
+                    }
+                });
+            }
+        }
+
         var dialog = new Object;
         function openDialog(id, actionPage) {
             var openUrl = '';
