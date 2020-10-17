@@ -45,6 +45,7 @@ namespace MyWeb.Areas.Service.Controllers
         [ValidateAntiForgeryToken]
         public IHttpActionResult Post(vw_Products model)
         {
+            ModelState.Remove("model.ProductID");
             if (ModelState.IsValid)
             {
                 ExecuteResult executeResult = new ExecuteResult();
@@ -71,14 +72,8 @@ namespace MyWeb.Areas.Service.Controllers
             {
                 ExecuteResult executeResult = new ExecuteResult();
                 executeResult.Success = service.UpdateProduct(id, model);
-                if (executeResult.Success)
-                {
-                    return Ok(executeResult);
-                }
-                else
-                {
-                    return BadRequest("編輯失敗");
-                }
+                executeResult.Success = true;
+                return Ok(executeResult);
             }
             else
             {
