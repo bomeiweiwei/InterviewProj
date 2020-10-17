@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MyWeb.Dao;
 using MyWeb.Dao.Sql;
 using MyWeb.Models;
 using MyWeb.Models.ViewModel;
@@ -22,6 +23,11 @@ namespace MyWeb.Service
             return productsDA.GetProductsData(ProductID).OrderByDescending(m => m.ProductID).ToList();
         }
 
+        public Products GetProducts(int ProductID)
+        {
+            return FindOne(m => m.ProductID == ProductID);
+        }
+
         public bool CreateProduct(vw_Products model)
         {
             var config = new MapperConfiguration(cfg =>
@@ -35,6 +41,29 @@ namespace MyWeb.Service
                 return true;
             else
                 return false;
+        }
+
+        public bool UpdateProduct(int id, Products model)
+        {
+            NorthwindEntities entity = (NorthwindEntities)GetCurrentContext();
+            ProductDao dao = new ProductDao();
+
+            Products oriProduct = FindOne(m => m.ProductID == id);
+            var config = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<Products, Products>();
+            });
+            IMapper mapper = config.CreateMapper();
+            mapper.Map(model, oriProduct);
+            int count= dao.UpdateData(oriProduct, entity);
+            if (count == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

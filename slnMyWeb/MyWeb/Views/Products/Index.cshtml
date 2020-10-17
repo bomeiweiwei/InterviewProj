@@ -57,7 +57,10 @@
                     {
                         field: 'id',
                         template: function (e) {
-                            return '<a class="btn btn-primary" href = "\#" onclick ="GetDetail(' + e.ProductID + ')">詳細</a><input type="hidden" name="ProductID" value="' + e.ProductID + '">';
+                            return '<a class="btn btn-primary" href = "\#" onclick ="GetDetail(' + e.ProductID + ')">詳細</a>' +
+                                '<a class="btn btn-warning" href = "\#" onclick ="UpdateProduct(' + e.ProductID + ')">編輯</a>' +
+                                '<a class="btn btn-danger" href = "\#" onclick ="DeleteProduct(' + e.ProductID + ')">刪除</a>'
+                                '<input type="hidden" name="ProductID" value="' + e.ProductID + '">';
                         },
                         headerTemplate: '<div class="text-center">功能</div>',
                         //title: '功能',
@@ -101,6 +104,10 @@
             openDialog(id, 'detail');
         }
 
+        function UpdateProduct(id) {
+            openDialog(id, 'edit');
+        }
+
         var dialog = new Object;
         function openDialog(id, actionPage) {
             var openUrl = '';
@@ -108,8 +115,10 @@
                 openUrl = '@Url.Action("Detail", new { area = "" })';
             } else if (actionPage == 'create') {
                 openUrl = '@Url.Action("Create", new { area = "" })';
+            } else if (actionPage == 'edit') {
+                openUrl = '@Url.Action("Edit", new { area = "" })';
             }
-            debugger;
+            //debugger;
             dialog = new BootstrapDialog({
                 title: '產品資訊',
                 type: BootstrapDialog.TYPE_INFO,

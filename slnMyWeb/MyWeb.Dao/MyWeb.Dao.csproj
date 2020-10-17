@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="BaseDao.cs" />
     <Compile Include="IDataOperation.cs" />
+    <Compile Include="ProductDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sql\ProductsDA.cs" />
   </ItemGroup>
