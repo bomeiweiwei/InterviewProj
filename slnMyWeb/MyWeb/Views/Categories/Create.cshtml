@@ -5,10 +5,18 @@
     Layout = "~/Views/Shared/_LayoutPopup.cshtml";
 }
 
-@using (Html.BeginForm()) 
+@using (Ajax.BeginForm("", "", null,
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        Url = Url.HttpRouteUrl("DefaultApi", new { controller = "CategoriesApi" }),
+        OnSuccess = "OnSuccess",
+        OnFailure = "OnFailure",
+        OnComplete = "OnComplete"
+    }, new { id = "frmCall", @class = "uk-card uk-text-left" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
 
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -31,9 +39,49 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-success" />
             </div>
         </div>
     </div>
 }
 
+@section scripts{
+    <script type="text/javascript">
+        function OnSuccess(result) {
+            if (result.Success) {
+                if (typeof window.parent.closeDialog === 'function') {
+                    //此popup由BootstrapDialogTest開啟，回上頁的關閉功能
+                    window.parent.closeDialog();
+                }
+            }
+        }
+
+        function OnFailure(xhr, status) {
+            var jResponse = JSON.parse(xhr.responseText);
+            myalert('Error: ' + decodeURI(jResponse.Message), 0);
+        }
+
+        function OnComplete(XMLHttpRequest, textStatus) {
+        }
+
+        function myalert(content, success) {
+            var divName = 'showAlert';
+            var iDiv = document.createElement('div');
+            iDiv.id = divName;
+            document.getElementsByTagName('body')[0].appendChild(iDiv);
+            $('#' + divName).kendoAlert({
+                title: "訊息",
+                content: content,
+                width: 400,
+            }).data("kendoAlert").open();
+            if (success == 1)
+                $('#' + divName).parent().find('.k-window-titlebar').css('backgroundColor', '#0094ff');
+            else
+                $('#' + divName).parent().find('.k-window-titlebar').css('backgroundColor', '#ff0000');
+        }
+
+        $(function () {
+            $("#KSubmit").kendoButton();
+        });
+    </script>
+}

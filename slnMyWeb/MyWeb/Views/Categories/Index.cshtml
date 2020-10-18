@@ -8,44 +8,18 @@
 <p>
     <button type="button" class="btn btn-success" onclick="openDialog(0,'create')">Create New</button>
 </p>
-<table class="table">
+<table class="table table-hover" id="catTable">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CategoryName)
+            @MyWeb.Resource.App_GlobalResources.NorthWindResource.CategoryName
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Description
         </th>
-        @*<th>
-            @Html.DisplayNameFor(model => model.Picture)
-        </th>*@
         <th></th>
     </tr>
-    @{ 
-        int index = 0;
-    }
-@foreach (var item in Model) 
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.CategoryName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Description)
-        </td>
-        @*<td>
-            <img runat="server" id="image_@index" src="@item.Src"/>
-        </td>*@
-    <td>
-        <button type="button" class="btn btn-primary" onclick="openDialog('@item.CategoryID','edit')">Edit</button> |
-        <button type="button" class="btn btn-warning" onclick="openDialog('@item.CategoryID','detail')">Details</button> |
-        <button type="button" class="btn btn-danger" onclick="">Delete</button>
-    </td>
-    </tr>
-    index++;
-}
-
 </table>
+
 @section scripts{
     <script type="text/javascript">
         var dialog = new Object;
@@ -96,9 +70,75 @@
 
         function closeDialog() {
             dialog.close();
-            dataSource.read();
+            initTable();
         }
+        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "CategoriesApi" })';
+        function initTable() {
+
+            $.ajax({
+                url: apiStr,
+                type: 'GET',
+                async: false,
+                success: function (data, textStatus, xhr) {
+                    //console.log(data);
+                    $("#catTable").empty();
+                    $("#catTable").append(
+                        "<thead class=\"table-primary\">"+
+                            "<tr>" +
+                            "<th>@MyWeb.Resource.App_GlobalResources.NorthWindResource.CategoryName</th>" +
+                            "<th>Description</th>" +
+                            "<th>" +
+                            "</th>" +
+                            "</tr>" +
+                        "</thead>" +
+                        "<tbody>"
+                    );
+                    for (var i = 0; i < data.length; i++) {
+                        $("#catTable").append(
+                            "<tr>" +
+                                "<td class=\"table-active\">" + data[i].CategoryName+"</td>" +
+                                "<td>" + data[i].Description +"</td>" +
+                                "<td>" +
+                                    "<button type=\"button\" class=\"btn btn-primary\" onclick=\"openDialog('" + data[i].CategoryID + "','edit')\">Edit</button> |" +
+                                    "<button type=\"button\" class=\"btn btn-warning\" onclick=\"openDialog('" + data[i].CategoryID + "','detail')\">Details</button> |" +
+                                    "<button type=\"button\" class=\"btn btn-danger\" onclick=\"fnDelete('" + data[i].CategoryID + "')\">Delete</button>" +
+                                "</td>" +
+                            "</tr>"
+                        );
+                    }
+                    $("#catTable").append(                       
+                        "</tbody>"
+                    );
+                },
+                error: function (xhr, textStatus, errorThrown) {
+
+                }
+            });
+        }
+
+        function fnDelete(id) {
+            var r = confirm('確定要刪除嗎?');
+            if (r == true) {
+                var url = apiStr + '/' + id;
+                debugger;
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    success: function (result) {
+                        if (result.Success) {
+                            alert('刪除成功');
+                            initTable();
+                        }
+                    },
+                    error: function (result) {
+
+                    }
+                });
+            }
+        }
+
         $(function () {
+            initTable();
         });
     </script>
 }

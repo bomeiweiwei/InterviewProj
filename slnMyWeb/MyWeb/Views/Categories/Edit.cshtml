@@ -5,35 +5,80 @@
     Layout = "~/Views/Shared/_LayoutPopup.cshtml";
 }
 
-@using (Html.BeginForm())
+@using (Ajax.BeginForm("", "", null,
+    new AjaxOptions
+    {
+//OnBegin = "beginSubmit",
+//HttpMethod = "PUT",
+}, new { id = "frmCall", @class = "uk-card uk-text-left" }))
 {
     @Html.AntiForgeryToken()
-    
-<div class="form-horizontal">
 
-    @Html.HiddenFor(m => m.CategoryID)
+    <div class="form-horizontal">
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+        @Html.HiddenFor(m => m.CategoryID)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CategoryName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CategoryName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CategoryName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="button" id="SubmitBtn" value="存檔" />
+            </div>
         </div>
     </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Save" class="btn btn-default" />
-        </div>
-    </div>
-</div>
 }
 
+@section scripts{
+    <script type="text/javascript">
+        var apiStr = '@Url.HttpRouteUrl("DefaultApi", new { controller= "CategoriesApi" })' + '/' + '@Model.CategoryID';
+
+        $("#SubmitBtn").click(function () {
+            var r = confirm('確定要變更嗎?');
+            if (r == true) {
+                var obj = $("#frmCall").serializeObject();
+                debugger;
+                $.ajax({
+                    url: apiStr,
+                    type: 'PUT',
+                    data: obj,
+                    error: function (xhr, textStatus, errorThrown) {
+                        //Handle the server errors using the approach from the previous example
+                        var jsonResponse = JSON.parse(xhr.responseText);
+                        BootstrapDialog.alert({
+                            message: jsonResponse.Message,
+                            type: BootstrapDialog.TYPE_DANGER,
+                            callback: function (result) {
+                            }
+                        });
+                    },
+                    success: function (data, textStatus, xhr) {
+                        if (typeof window.parent.closeDialog === 'function') {
+                            //此popup由BootstrapDialogTest開啟，回上頁的關閉功能
+                            window.parent.closeDialog();
+                        }
+                    },
+                    complete: function (XMLHttpRequest, textStatus) {
+                    }
+                });
+            }
+        });
+
+        $(function () {
+
+        });
+    </script>
+}

@@ -20,8 +20,7 @@ namespace MyWeb.Controllers
         // GET: Categories
         public ActionResult Index()
         {
-            List<vw_Categories> categories = categoriesService.GetViewList();
-            return View(categories);
+            return View();
         }
         public ActionResult Detail(int? id)
         {

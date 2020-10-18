@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseDao.cs" />
+    <Compile Include="CategoriesDao.cs" />
     <Compile Include="IDataOperation.cs" />
     <Compile Include="ProductDao.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
