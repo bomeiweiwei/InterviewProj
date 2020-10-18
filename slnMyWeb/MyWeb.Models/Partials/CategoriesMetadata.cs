@@ -1,6 +1,8 @@
 using MyWeb.Common;
 using MyWeb.Resource.App_GlobalResources;
-using System; 
+using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -50,9 +52,13 @@ namespace MyWeb.Models
     		/// </summary>        
     	    [ResourceTool.LocalizedDisplayName("Picture", typeof(NorthWindResource))]
     		public byte[] Picture { get; set; }
-    
-    		    
-    	}
+
+
+            [JsonIgnore()]
+            public virtual ICollection<Products> Products { get; set; }
+
+
+        }
     }
     
 }

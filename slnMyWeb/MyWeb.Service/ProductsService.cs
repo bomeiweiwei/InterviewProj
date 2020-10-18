@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using MyWeb.Dao;
 using MyWeb.Dao.Sql;
 using MyWeb.Models;
@@ -55,26 +56,32 @@ namespace MyWeb.Service
             NorthwindEntities entity = (NorthwindEntities)GetCurrentContext();
             ProductDao dao = new ProductDao();
 
-            Products oriProduct = FindOne(m => m.ProductID == id);
+            List<int> idList = new List<int> { id };
+            List<Products> updateList = new List<Products> { model };
+            List<Products> taregtList = entity.Products.Where(m => idList.Contains(m.ProductID)).ToList();
+
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Products, Products>();
+                cfg.CreateMap<Products, Products>().EqualityComparison((odto, o) => odto.CategoryID == o.CategoryID);
             });
             IMapper mapper = config.CreateMapper();
-            mapper.Map(model, oriProduct);
+            mapper.Map(updateList, taregtList).ToList();
             try
             {
-                count = dao.UpdateData(oriProduct, entity);
+                foreach (var item in taregtList)
+                {
+                    count = dao.UpdateData(item, entity);
+                }
             }
             catch (Exception)
             { }
-            if (count == 1)
+            if (count == 0)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 
