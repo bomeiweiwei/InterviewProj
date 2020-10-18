@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using MyWeb.Dao;
 using MyWeb.Models;
 using MyWeb.Models.ViewModel;
@@ -48,32 +49,40 @@ namespace MyWeb.Service
                 return false;
         }
 
-        public bool UpdateCategories(int id, Categories userModel)
+        public bool UpdateCategories(int id, Categories model)
         {
             int count = 0;
             NorthwindEntities entity = (NorthwindEntities)GetCurrentContext();
             CategoriesDao dao = new CategoriesDao();
 
-            Categories oriCategory = entity.Categories.Where(m => m.CategoryID == id).FirstOrDefault();
+            List<int> idList = new List<int> { id };
+            List<Categories> updateList = new List<Categories> { model };
+            List<Categories> taregtList = entity.Categories.Where(m => idList.Contains(m.CategoryID)).ToList();
+
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<Categories, Categories>();
+                cfg.CreateMap<Categories, Categories>().EqualityComparison((odto, o) => odto.CategoryID == o.CategoryID);
             });
             IMapper mapper = config.CreateMapper();
-            mapper.Map(userModel, oriCategory);
+
+            mapper.Map(updateList, taregtList).ToList();
+
             try
             {
-                count = dao.UpdateData(oriCategory, entity);
+                foreach (var item in taregtList)
+                {
+                    count = dao.UpdateData(item, entity);
+                }
             }
             catch (Exception)
             { }
-            if (count == 1)
+            if (count == 0)
             {
-                return true;
+                return false;
             }
             else
             {
-                return false;
+                return true;
             }
         }
 
