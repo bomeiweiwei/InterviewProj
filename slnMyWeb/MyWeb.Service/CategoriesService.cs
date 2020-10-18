@@ -48,19 +48,19 @@ namespace MyWeb.Service
                 return false;
         }
 
-        public bool UpdateCategories(int id, Categories model)
+        public bool UpdateCategories(int id, Categories userModel)
         {
             int count = 0;
             NorthwindEntities entity = (NorthwindEntities)GetCurrentContext();
             CategoriesDao dao = new CategoriesDao();
 
-            Categories oriCategory = FindOne(m => m.CategoryID == id);
+            Categories oriCategory = entity.Categories.Where(m => m.CategoryID == id).FirstOrDefault();
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Categories, Categories>();
             });
             IMapper mapper = config.CreateMapper();
-            mapper.Map(model, oriCategory);
+            mapper.Map(userModel, oriCategory);
             try
             {
                 count = dao.UpdateData(oriCategory, entity);
