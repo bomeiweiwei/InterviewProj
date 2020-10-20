@@ -106,12 +106,12 @@
 @section scripts{
     <script type="text/javascript">
         function OnSuccess(result) {
-            if (result.Success) {
-                if (typeof window.parent.closeDialog === 'function') {
-                    //此popup由BootstrapDialogTest開啟，回上頁的關閉功能
-                    window.parent.closeDialog();
-                }
-            } 
+
+            if (typeof window.parent.closeDialog === 'function') {
+                //此popup由BootstrapDialogTest開啟，回上頁的關閉功能
+                window.parent.closeDialog();
+            }
+
         }
 
         function OnFailure(xhr, status) {          

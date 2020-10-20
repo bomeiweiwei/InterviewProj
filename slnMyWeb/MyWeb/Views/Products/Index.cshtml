@@ -124,10 +124,9 @@
                     type: 'DELETE',
                     async: false,
                     success: function (result) {
-                        if (result.Success) {
-                            alert('刪除成功');
-                            dataSource.read();
-                        }
+
+                        dataSource.read();
+
                     },
                     error: function (result) {
 

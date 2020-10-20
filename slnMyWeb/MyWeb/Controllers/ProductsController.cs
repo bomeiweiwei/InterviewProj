@@ -11,7 +11,7 @@ using System.Web.Mvc;
 namespace MyWeb.Controllers
 {
     public class ProductsController : Controller
-    {
+    {        
         private readonly ProductsService productsService;
         private readonly CategoriesService categoriesService;
         private readonly SuppliersService suppliersService;
@@ -21,6 +21,7 @@ namespace MyWeb.Controllers
             categoriesService = new CategoriesService();
             suppliersService = new SuppliersService();
         }
+
         // GET: Products
         public ActionResult Index()
         {

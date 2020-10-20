@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Mvc;
 
@@ -13,21 +14,36 @@ namespace MyWeb.Areas.ApiArea.Controllers
 {
     public class ProductsApiController : ApiController
     {
+        List<vw_Products> products = new List<vw_Products>();
         // GET: api/ProductsApi
         private readonly ProductsService service;
         public ProductsApiController()
         {
             service = new ProductsService();
         }
-        public IQueryable<vw_Products> Get()
+        public ProductsApiController(ProductsService _service)
         {
-            IQueryable<vw_Products> list = service.GetProductsList(0).AsQueryable();
+            service = _service;
+        }
+        public ProductsApiController(List<vw_Products> products)
+        {
+            this.products = new List<vw_Products>(); //products;
+            service = new ProductsService();
+        }
+        public List<vw_Products> Get()
+        {
+            List<vw_Products> list = service.GetProductsList(0);
             return list;
         }
         public IHttpActionResult Get(int id)
         {
             vw_Products obj = service.GetProductsList(id).FirstOrDefault();
-            return Ok(obj);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            else
+                return Ok(obj);
         }
         //public HttpResponseMessage Post(Product product)
         //{
@@ -42,6 +58,7 @@ namespace MyWeb.Areas.ApiArea.Controllers
         //        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, ModelState);
         //    }
         //}
+        [System.Web.Http.HttpPost]
         [ValidateAntiForgeryToken]
         public IHttpActionResult Post(vw_Products model)
         {
@@ -52,7 +69,7 @@ namespace MyWeb.Areas.ApiArea.Controllers
                 executeResult.Success = service.CreateProduct(model);
                 if (executeResult.Success)
                 {
-                    return Ok(executeResult);
+                    return CreatedAtRoute("DefaultApi", new { id = model.ProductID }, model);
                 }
                 else
                 {
@@ -73,7 +90,7 @@ namespace MyWeb.Areas.ApiArea.Controllers
                 ExecuteResult executeResult = new ExecuteResult();
                 executeResult.Success = service.UpdateProduct(id, model);
                 executeResult.Success = true;
-                return Ok(executeResult);
+                return Content(HttpStatusCode.Accepted, model);
             }
             else
             {
@@ -86,7 +103,17 @@ namespace MyWeb.Areas.ApiArea.Controllers
         {
             ExecuteResult executeResult = new ExecuteResult();
             executeResult.Success = service.DeleteProduct(id);
-            return Ok(executeResult);
+            return Ok();
         }
+
+        //public async Task<IEnumerable<vw_Products>> ToGetAllProductsAsync()
+        //{
+        //    return await Task.FromResult(Get());
+        //}
+
+        //public async Task<IHttpActionResult> ToGetProductAsync(int id)
+        //{
+        //    return await Task.FromResult(Get(id));
+        //}
     }
 }
