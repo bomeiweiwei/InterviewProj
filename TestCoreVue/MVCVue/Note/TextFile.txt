@@ -1,1 +1,0 @@
-﻿Scaffold-DbContext Name=DefaultConnection Microsoft.EntityFrameworkCore.SqlServer -OutputDir Partials -Force -UseDatabaseNames -Tables Suppliers,Products,Categories,Employees,Territories,Shippers,Region,Orders,EmployeeTerritories,Customers,CustomerDemographics,CustomerCustomerDemo,"[dbo].[Order Details]" -ContextDir Data
