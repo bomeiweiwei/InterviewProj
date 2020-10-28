@@ -1,0 +1,9 @@
+D:\TestVue\MVCVue.Utility\bin\Debug\netstandard2.0\MVCVue.Utility.deps.json
+D:\TestVue\MVCVue.Utility\bin\Debug\netstandard2.0\MVCVue.Utility.dll
+D:\TestVue\MVCVue.Utility\bin\Debug\netstandard2.0\MVCVue.Utility.pdb
+D:\TestVue\MVCVue.Utility\obj\Debug\netstandard2.0\MVCVue.Utility.csprojAssemblyReference.cache
+D:\TestVue\MVCVue.Utility\obj\Debug\netstandard2.0\MVCVue.Utility.AssemblyInfoInputs.cache
+D:\TestVue\MVCVue.Utility\obj\Debug\netstandard2.0\MVCVue.Utility.AssemblyInfo.cs
+D:\TestVue\MVCVue.Utility\obj\Debug\netstandard2.0\MVCVue.Utility.csproj.CoreCompileInputs.cache
+D:\TestVue\MVCVue.Utility\obj\Debug\netstandard2.0\MVCVue.Utility.dll
+D:\TestVue\MVCVue.Utility\obj\Debug\netstandard2.0\MVCVue.Utility.pdb
