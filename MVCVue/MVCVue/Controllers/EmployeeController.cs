@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using MVCVue.DTO;
 using MVCVue.Service.Interface;
 using MVCVue.Web.Infrastructure;
@@ -14,10 +15,11 @@ namespace MVCVue.Web.Controllers
     public class EmployeeController : ControllerBase
     {
         private readonly IEmployeeService _employeeService;
-
-        public EmployeeController(IEmployeeService employeeService)
+        private readonly ILogger<EmployeeController> _logger;
+        public EmployeeController(IEmployeeService employeeService, ILogger<EmployeeController> logger)
         {
             _employeeService = employeeService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -33,6 +35,8 @@ namespace MVCVue.Web.Controllers
                 City = m.City,
                 Country = m.Country,
             }).ToList();
+
+            _logger.LogDebug(2, $"透過API取得Employee ViewModel 資料，筆數為{result.Count}");
             return new ApiReponse<List<EmployeeViewModel>>(result);
         }
 

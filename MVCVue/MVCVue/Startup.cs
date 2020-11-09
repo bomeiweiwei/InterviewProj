@@ -19,6 +19,7 @@ using MVCVue.Repository;
 using MVCVue.Service.Interface;
 using MVCVue.Service;
 using MVCVue.Repository.Data;
+using MVCVue.Repository.DataModel;
 
 namespace MVCVue
 {
@@ -41,6 +42,7 @@ namespace MVCVue
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUnitOfWorks, UnitOfWork>();
             services.AddScoped<IEmployeeService, EmployeeService>();
+            services.Configure<DeveLoperOptions>(options => Configuration.GetSection("MyInfo").Bind(options));
             //services.AddControllersWithViews();
         }
 

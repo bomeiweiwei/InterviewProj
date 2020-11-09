@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MVCVue.Models;
@@ -12,7 +13,7 @@ namespace MVCVue.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
+       
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -20,6 +21,8 @@ namespace MVCVue.Controllers
 
         public IActionResult Index()
         {
+            //EventId eventId = new EventId(1, "Home Index");
+            _logger.LogInformation(1, "Home Index被呼叫");
             return View();
         }
 
@@ -32,6 +35,17 @@ namespace MVCVue.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult Test()
+        {
+            ViewData["Data"] = "666"; //_env.ContentRootPath;
+            return View();
+        }
+
+        public IActionResult About()
+        {
+            return View();
         }
 
         [HttpGet("[action]")]

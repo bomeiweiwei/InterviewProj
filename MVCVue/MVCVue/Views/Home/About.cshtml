@@ -1,0 +1,13 @@
+﻿@using Microsoft.Extensions.Options
+@inject IOptionsMonitor<MVCVue.Repository.DataModel.DeveLoperOptions> devOptions
+
+@{ 
+    var doptions = devOptions.CurrentValue;
+}
+
+<ul>
+    <li>Name: @doptions.Name</li>
+    <li>Email: @doptions.Email</li>
+    <li>Country: @doptions.Country</li>
+    <li>WebSite: @doptions.WebSite</li>
+</ul>
